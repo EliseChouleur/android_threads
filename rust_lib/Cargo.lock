@@ -150,6 +150,7 @@ dependencies = [
  "android_logger",
  "jni",
  "log",
+ "once_cell",
 ]
 
 [[package]]
