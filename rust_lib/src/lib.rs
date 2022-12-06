@@ -55,10 +55,11 @@ pub(crate) fn get_app_jni_context() -> Result<(JNIEnv<'static>, JObject<'static>
 fn communication_handler() {
     debug!("COM_THREAD: Communication handler start...");
     let get_context = get_app_jni_context();
-    debug!("Get context success ? {:?}", get_context.is_ok());
+    debug!("Get context success ? {:?}", get_context.as_ref().err());
     let (env, _) = get_context.unwrap();
     let ble_class_res = env.find_class("com/example/myapplication/BleInterface");
-    debug!("BLe class getter res {:?}", res);
+    debug!("BLe class getter res {:?}", ble_class_res);
+    let ble_class = ble_class_res.unwrap();
     let met_call = env.call_static_method(ble_class, "javaTest", "()V", &[]);
     debug!("COM_THREAD: Method call: {:?}", met_call);
 }
