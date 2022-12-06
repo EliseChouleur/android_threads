@@ -17,5 +17,5 @@ pub fn Java_com_example_myapplication_JniInterface_runRustExample(_env: JNIEnv,
                 .with_tag("RUST_LIB"),
         );
     });
-    debug!("RUST start");_
+    debug!("RUST start");
 }
