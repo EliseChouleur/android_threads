@@ -1,6 +1,6 @@
 use android_logger::Config;
 use jni::objects::{GlobalRef, JClass, JObject};
-use jni::{JNIEnv, JavaVM};
+use jni::{AttachGuard, JNIEnv, JavaVM};
 use log::debug;
 use once_cell::sync::OnceCell;
 use std::thread;
@@ -38,14 +38,14 @@ pub fn Java_com_example_myapplication_JniInterface_runRustExample(
     debug!("Thread ended with success: {}", join_res.is_ok());
 }
 
-pub(crate) fn get_app_jni_context() -> Result<(JNIEnv<'static>, JObject<'static>), String> {
+pub(crate) fn get_app_jni_context() -> Result<(AttachGuard<'static>, JObject<'static>), String> {
     APP_CONTEXT.get().map_or(
         Err("Coudln't get APP_CONTEXT".to_string()),
         |(app_vm, app_context_ref)| {
             Ok((
                 app_vm
-                    .get_env()
-                    .map_err(|e| format!("Couldn't convert vm to env: {:?}", e))?,
+                    .attach_current_thread()
+                    .map_err(|e| format!("Couldn't attach thread: {:?}", e))?,
                 app_context_ref.as_obj(),
             ))
         },
