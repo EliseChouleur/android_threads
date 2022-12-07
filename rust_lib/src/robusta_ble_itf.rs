@@ -4,6 +4,7 @@ use robusta_jni::bridge;
 pub mod jni {
     use jni::sys::jint;
 
+    use jni::objects::GlobalRef;
     use robusta_jni::convert::{IntoJavaValue, Signature, TryFromJavaValue, TryIntoJavaValue};
     use robusta_jni::jni::errors::Result as JniResult;
     use robusta_jni::jni::objects::AutoLocal;
@@ -18,6 +19,6 @@ pub mod jni {
 
     impl<'env: 'borrow, 'borrow> BleInterface<'env, 'borrow> {
         /// "java": Rust to Java call
-        pub extern "java" fn javaTest(env: &JNIEnv) -> JniResult<()> {}
+        pub extern "java" fn javaTest(env: &JNIEnv, class_ref: &GlobalRef) -> JniResult<()> {}
     }
 }

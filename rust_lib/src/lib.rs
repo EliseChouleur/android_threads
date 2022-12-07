@@ -11,8 +11,7 @@ use once_cell::sync::OnceCell;
 use std::thread;
 
 pub(crate) static APP_INITIALIZED: std::sync::Once = std::sync::Once::new();
-static APP_CONTEXT: OnceCell<(JavaVM, GlobalRef)> = OnceCell::new();
-static BLE_CLASS: OnceCell<GlobalRef> = OnceCell::new();
+static APP_CONTEXT: OnceCell<(JavaVM, GlobalRef, GlobalRef)> = OnceCell::new();
 
 #[no_mangle]
 #[allow(non_snake_case)]
@@ -28,19 +27,18 @@ pub fn Java_com_example_myapplication_JniInterface_runRustExample(
                 .with_tag("RUST_LIB"),
         );
 
-        APP_CONTEXT
-            .set((
-                env.get_java_vm().unwrap(),
-                env.new_global_ref(app_context).unwrap(),
-            ))
-            .unwrap();
-
         /* Save class reference */
         let ble_class = env
             .find_class("com/example/myapplication/BleInterface")
             .unwrap();
         let ble_class_ref = env.new_global_ref(ble_class).unwrap();
-        BLE_CLASS.set(ble_class_ref).unwrap();
+        APP_CONTEXT
+            .set((
+                env.get_java_vm().unwrap(),
+                env.new_global_ref(app_context).unwrap(),
+                ble_class_ref,
+            ))
+            .unwrap();
     });
     debug!("RUST start");
 
@@ -75,10 +73,9 @@ fn communication_handler() {
         "COM_THREAD: Get context success ? {:?}",
         get_context.as_ref().err()
     );
-    let (env, _) = get_context.unwrap();
+    let (env, _, ble_class_ref) = get_context.unwrap();
 
     /* Get BLE class */
-    let ble_class_ref = BLE_CLASS.get().unwrap();
     debug!("COM_THREAD: class ref: {:?}", ble_class_ref);
 
     /* Call methode */
@@ -96,9 +93,9 @@ fn communication_handler() {
         "COM_THREAD: Get context success ? {:?}",
         get_context.as_ref().err()
     );
-    let (env, _) = get_context.unwrap();
+    let (env, _, ble_class) = get_context.unwrap();
 
     /* Call methode */
-    let met_call = BleInterface::javaTest(&env);
+    let met_call = BleInterface::javaTest(&env, ble_class);
     debug!("COM_THREAD: Method call: {:?}", met_call);
 }
