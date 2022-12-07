@@ -1,6 +1,5 @@
 use android_logger::Config;
 use jni::objects::{GlobalRef, JClass, JObject};
-use jni::signature::ReturnType;
 use jni::{JNIEnv, JavaVM};
 use log::debug;
 use once_cell::sync::OnceCell;
@@ -67,7 +66,7 @@ fn communication_handler() {
     /* Get jni env and app context */
     let get_context = get_app_jni_context();
     debug!("Get context success ? {:?}", get_context.as_ref().err());
-    let (env, app_context) = get_context.unwrap();
+    let (env, _) = get_context.unwrap();
 
     /* Get BLE class */
     let ble_class_ref = BLE_CLASS.get().unwrap();
