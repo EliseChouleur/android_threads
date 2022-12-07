@@ -2,8 +2,6 @@ use robusta_jni::bridge;
 
 #[bridge]
 pub mod jni {
-    use jni::sys::jint;
-
     use jni::objects::GlobalRef;
     use robusta_jni::convert::{IntoJavaValue, Signature, TryFromJavaValue, TryIntoJavaValue};
     use robusta_jni::jni::errors::Result as JniResult;
