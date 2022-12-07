@@ -1,8 +1,8 @@
 #[cfg(feature = "with_robusta")]
-mod ble_itf;
+mod robusta_ble_itf;
 
 #[cfg(feature = "with_robusta")]
-use crate::ble_itf::jni::BleInterface;
+use crate::robusta_ble_itf::jni::BleInterface;
 use android_logger::Config;
 use jni::objects::{GlobalRef, JClass, JObject};
 use jni::{JNIEnv, JavaVM};
