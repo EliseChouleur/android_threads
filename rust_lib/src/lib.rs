@@ -1,3 +1,8 @@
+#[cfg(feature = "with_robusta")]
+mod ble_itf;
+
+#[cfg(feature = "with_robusta")]
+use crate::ble_itf::jni::BleInterface;
 use android_logger::Config;
 use jni::objects::{GlobalRef, JClass, JObject};
 use jni::{JNIEnv, JavaVM};
@@ -60,19 +65,40 @@ pub(crate) fn get_app_jni_context() -> Result<(JNIEnv<'static>, JObject<'static>
     )
 }
 
+#[cfg(not(feature = "with_robusta"))]
 fn communication_handler() {
     debug!("COM_THREAD: Communication handler start...");
 
     /* Get jni env and app context */
     let get_context = get_app_jni_context();
-    debug!("Get context success ? {:?}", get_context.as_ref().err());
+    debug!(
+        "COM_THREAD: Get context success ? {:?}",
+        get_context.as_ref().err()
+    );
     let (env, _) = get_context.unwrap();
 
     /* Get BLE class */
     let ble_class_ref = BLE_CLASS.get().unwrap();
-    debug!("class ref: {:?}", ble_class_ref);
+    debug!("COM_THREAD: class ref: {:?}", ble_class_ref);
 
     /* Call methode */
     let met_call = env.call_static_method(ble_class_ref, "javaTest", "()V", &[]);
+    debug!("COM_THREAD: Method call: {:?}", met_call);
+}
+
+#[cfg(feature = "with_robusta")]
+fn communication_handler() {
+    debug!("COM_THREAD: Communication handler start...");
+
+    /* Get jni env and app context */
+    let get_context = get_app_jni_context();
+    debug!(
+        "COM_THREAD: Get context success ? {:?}",
+        get_context.as_ref().err()
+    );
+    let (env, _) = get_context.unwrap();
+
+    /* Call methode */
+    let met_call = BleInterface::javaTest(&env);
     debug!("COM_THREAD: Method call: {:?}", met_call);
 }
