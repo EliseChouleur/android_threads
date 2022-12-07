@@ -49,15 +49,17 @@ pub fn Java_com_example_myapplication_JniInterface_runRustExample(
     debug!("Thread ended with success: {}", join_res.is_ok());
 }
 
-pub(crate) fn get_app_jni_context() -> Result<(JNIEnv<'static>, JObject<'static>), String> {
+pub(crate) fn get_app_jni_context(
+) -> Result<(JNIEnv<'static>, JObject<'static>, &'static GlobalRef), String> {
     APP_CONTEXT.get().map_or(
         Err("Coudln't get APP_CONTEXT".to_string()),
-        |(app_vm, app_context_ref)| {
+        |(app_vm, app_context_ref, ble_class_ref)| {
             Ok((
                 app_vm
                     .attach_current_thread_permanently()
                     .map_err(|e| format!("Couldn't attach thread: {:?}", e))?,
                 app_context_ref.as_obj(),
+                ble_class_ref,
             ))
         },
     )

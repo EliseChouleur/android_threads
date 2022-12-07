@@ -302,6 +302,7 @@ checksum = "456c603be3e8d448b072f410900c09faf164fbce2d480456f50eea6e25f9c848"
 [[package]]
 name = "robusta-codegen"
 version = "0.2.0"
+source = "git+https://github.com/EliseChouleur/robusta.git?branch=android-jni-thread-safe#dea405e926e708d2d455988de4aef7708719c6e0"
 dependencies = [
  "Inflector",
  "darling",
@@ -315,6 +316,7 @@ dependencies = [
 [[package]]
 name = "robusta_jni"
 version = "0.2.0"
+source = "git+https://github.com/EliseChouleur/robusta.git?branch=android-jni-thread-safe#dea405e926e708d2d455988de4aef7708719c6e0"
 dependencies = [
  "jni",
  "paste",
