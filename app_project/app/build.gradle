@@ -35,6 +35,9 @@ cargo {
     module  = "../../rust_lib"
     libname = "rust_lib"
     targets = ["arm64"]
+    features {
+        defaultAnd("with_robusta")
+    }
     targetDirectory = "../../rust_lib/target"
 }
 
