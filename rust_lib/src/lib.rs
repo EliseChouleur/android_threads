@@ -1,8 +1,8 @@
 #[cfg(feature = "with_robusta")]
-mod robusta_ble_itf;
+mod robusta_java_itf;
 
 #[cfg(feature = "with_robusta")]
-use crate::robusta_ble_itf::jni::BleInterface;
+use crate::robusta_java_itf::jni::JavaInterface;
 use android_logger::Config;
 use jni::objects::{GlobalRef, JClass, JObject};
 use jni::{JNIEnv, JavaVM};
@@ -28,15 +28,15 @@ pub fn Java_com_example_myapplication_JniInterface_runRustExample(
         );
 
         /* Save class reference */
-        let ble_class = env
-            .find_class("com/example/myapplication/BleInterface")
+        let java_class = env
+            .find_class("com/example/myapplication/JavaInterface")
             .unwrap();
-        let ble_class_ref = env.new_global_ref(ble_class).unwrap();
+        let java_class_ref = env.new_global_ref(java_class).unwrap();
         APP_CONTEXT
             .set((
                 env.get_java_vm().unwrap(),
                 env.new_global_ref(app_context).unwrap(),
-                ble_class_ref,
+                java_class_ref,
             ))
             .unwrap();
     });
@@ -53,13 +53,13 @@ pub(crate) fn get_app_jni_context(
 ) -> Result<(JNIEnv<'static>, JObject<'static>, &'static GlobalRef), String> {
     APP_CONTEXT.get().map_or(
         Err("Coudln't get APP_CONTEXT".to_string()),
-        |(app_vm, app_context_ref, ble_class_ref)| {
+        |(app_vm, app_context_ref, java_class_ref)| {
             Ok((
                 app_vm
                     .attach_current_thread_permanently()
                     .map_err(|e| format!("Couldn't attach thread: {:?}", e))?,
                 app_context_ref.as_obj(),
-                ble_class_ref,
+                java_class_ref,
             ))
         },
     )
@@ -75,13 +75,19 @@ fn communication_handler() {
         "COM_THREAD: Get context success ? {:?}",
         get_context.as_ref().err()
     );
-    let (env, _, ble_class_ref) = get_context.unwrap();
+    let (env, _, java_class_ref) = get_context.unwrap();
 
-    /* Get BLE class */
-    debug!("COM_THREAD: class ref: {:?}", ble_class_ref);
+    /* Get Java class */
+    debug!("COM_THREAD: class ref: {:?}", java_class_ref);
 
     /* Call methode */
-    let met_call = env.call_static_method(ble_class_ref, "javaTest", "()V", &[]);
+    let test_string = env.new_string("SUPER TEST").unwrap();
+    let met_call = env.call_static_method(
+        java_class_ref,
+        "javaTest",
+        "(Ljava/lang/String;)I",
+        &[test_string.into()],
+    );
     debug!("COM_THREAD: Method call: {:?}", met_call);
 }
 
@@ -95,9 +101,9 @@ fn communication_handler() {
         "COM_THREAD: Get context success ? {:?}",
         get_context.as_ref().err()
     );
-    let (env, _, ble_class) = get_context.unwrap();
+    let (env, _, java_class) = get_context.unwrap();
 
     /* Call methode */
-    let met_call = BleInterface::javaTest(&env, ble_class);
+    let met_call = JavaInterface::javaTest(&env, java_class, "SUPER TEST".to_string());
     debug!("COM_THREAD: Method call: {:?}", met_call);
 }
