@@ -32,13 +32,11 @@ pub fn Java_com_example_myapplication_JniInterface_runRustExample(
             .find_class("com/example/myapplication/JavaInterface")
             .unwrap();
         let java_class_ref = env.new_global_ref(java_class).unwrap();
-        APP_CONTEXT
-            .set((
-                env.get_java_vm().unwrap(),
-                env.new_global_ref(app_context).unwrap(),
-                java_class_ref,
-            ))
-            .unwrap();
+        let _ = APP_CONTEXT.set((
+            env.get_java_vm().unwrap(),
+            env.new_global_ref(app_context).unwrap(),
+            java_class_ref,
+        ));
     });
     debug!("RUST start");
 

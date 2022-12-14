@@ -137,9 +137,9 @@ checksum = "b9e0384b61958566e926dc50660321d12159025e767c18e043daf26b70104c39"
 
 [[package]]
 name = "jni"
-version = "0.20.0"
+version = "0.19.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "039022cdf4d7b1cf548d31f60ae783138e5fd42013f6271049d7df7afadef96c"
+checksum = "c6df18c2e3db7e453d3c6ac5b3e9d5182664d28788126d39b91f2d1e22b017ec"
 dependencies = [
  "cesu8",
  "combine",
@@ -302,7 +302,7 @@ checksum = "456c603be3e8d448b072f410900c09faf164fbce2d480456f50eea6e25f9c848"
 [[package]]
 name = "robusta-codegen"
 version = "0.2.0"
-source = "git+https://github.com/EliseChouleur/robusta.git?branch=android-jni-thread-safe#dea405e926e708d2d455988de4aef7708719c6e0"
+source = "git+https://github.com/EliseChouleur/robusta.git?branch=android-jni-thread-safe#b8869eeb1f165ae674b05fef4dcc727c659531de"
 dependencies = [
  "Inflector",
  "darling",
@@ -316,7 +316,7 @@ dependencies = [
 [[package]]
 name = "robusta_jni"
 version = "0.2.0"
-source = "git+https://github.com/EliseChouleur/robusta.git?branch=android-jni-thread-safe#dea405e926e708d2d455988de4aef7708719c6e0"
+source = "git+https://github.com/EliseChouleur/robusta.git?branch=android-jni-thread-safe#b8869eeb1f165ae674b05fef4dcc727c659531de"
 dependencies = [
  "jni",
  "paste",
