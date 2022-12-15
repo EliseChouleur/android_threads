@@ -1,4 +1,4 @@
-package com.example.myapplication;
+package com.example.jnitestapplication;
 
 import androidx.appcompat.app.AppCompatActivity;
 

@@ -10,9 +10,9 @@ pub mod jni {
     use robusta_jni::jni::JNIEnv;
 
     #[derive(Signature, TryIntoJavaValue, IntoJavaValue, TryFromJavaValue)]
-    #[package(com.example.myapplication)]
+    #[package(com.example.jnitestapplication)]
     pub struct JavaInterface<'env: 'borrow, 'borrow> {
-        // "com/example/myapplication/JavaInterface"
+        // "com/example/jnitestapplication/JavaInterface"
         #[instance]
         pub(crate) raw: AutoLocal<'env, 'borrow>,
     }

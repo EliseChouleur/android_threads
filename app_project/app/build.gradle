@@ -4,13 +4,13 @@ plugins {
 }
 
 android {
-    namespace 'com.example.myapplication'
+    namespace 'com.example.jnitestapplication'
 
     ndkVersion "22.1.7171670"
     compileSdk 31
 
     defaultConfig {
-        applicationId "com.example.myapplication"
+        applicationId "com.example.jnitestapplication"
         minSdk 23
         targetSdk 31
         versionCode 1
@@ -32,13 +32,13 @@ android {
 }
 
 cargo {
-    module  = "../../rust_lib"
-    libname = "rust_lib"
+    module  = "../../jni_test_rust_lib"
+    libname = "jni_test_rust_lib"
     targets = ["arm64"]
     features {
         defaultAnd("with_robusta")
     }
-    targetDirectory = "../../rust_lib/target"
+    targetDirectory = "../../jni_test_rust_lib/target"
 }
 
 dependencies {

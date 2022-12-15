@@ -156,6 +156,17 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "8eaf4bc02d17cbdd7ff4c7438cafcdf7fb9a4613313ad11b4f8fefe7d3fa0130"
 
 [[package]]
+name = "jni_test_rust_lib"
+version = "0.1.0"
+dependencies = [
+ "android_logger",
+ "jni",
+ "log",
+ "once_cell",
+ "robusta_jni",
+]
+
+[[package]]
 name = "lazy_static"
 version = "1.4.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -322,17 +333,6 @@ dependencies = [
  "paste",
  "robusta-codegen",
  "static_assertions",
-]
-
-[[package]]
-name = "rust_lib"
-version = "0.1.0"
-dependencies = [
- "android_logger",
- "jni",
- "log",
- "once_cell",
- "robusta_jni",
 ]
 
 [[package]]

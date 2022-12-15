@@ -15,7 +15,7 @@ static APP_CONTEXT: OnceCell<(JavaVM, GlobalRef, GlobalRef)> = OnceCell::new();
 
 #[no_mangle]
 #[allow(non_snake_case)]
-pub fn Java_com_example_myapplication_JniInterface_runRustExample(
+pub fn Java_com_example_jnitestapplication_JniInterface_runRustExample(
     env: JNIEnv,
     _class: JClass,
     app_context: JObject,
@@ -29,7 +29,7 @@ pub fn Java_com_example_myapplication_JniInterface_runRustExample(
 
         /* Save class reference */
         let java_class = env
-            .find_class("com/example/myapplication/JavaInterface")
+            .find_class("com/example/jnitestapplication/JavaInterface")
             .unwrap();
         let java_class_ref = env.new_global_ref(java_class).unwrap();
         let _ = APP_CONTEXT.set((
